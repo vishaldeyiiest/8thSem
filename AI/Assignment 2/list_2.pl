@@ -10,5 +10,5 @@ split([X|Rest], R1, [X|R2]):- split(Rest, R1, R2).
 
 count_100([], 0).
 count_100([X|Rest], C):- X > 100, !, count_100(Rest, C1), C is C1+1.
-count_100([X|Rest], C):- count_100(Rest, C).
+count_100([_|Rest], C):- count_100(Rest, C).
 
