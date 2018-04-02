@@ -8,5 +8,5 @@ postorder_from_in_pre(In, [X|P], Post):-
 	postorder_from_in_pre(L1, L3, Left),
 	postorder_from_in_pre(L2, L4, Right),
 	append(Left, Right, Post1),
-	append(Post1, [X], Post). 			
+	append(Post1, [X], Post). 				
 

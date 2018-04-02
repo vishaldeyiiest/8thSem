@@ -26,6 +26,7 @@ find_Y([X, Y], 0):- X < Y, !.
 find_Y([X|Rest], N):- find_Y(Rest, NY), !, N is NY+1.
 find_Y([X, Y|Rest], 0):- X < Y.
 
+find_X([], _, 0).
 find_X([X], Y, 0):- X > Y, !.
 find_X([X|Rest], Y, INX):- 
 	X > Y, !,
@@ -34,7 +35,7 @@ find_X([X|Rest], Y, INX):-
 	X1 < X,
 	INX is Ind + 1.
 	
-find_X([X|Rest], Y, INX):- find_X(Rest, Y, INX1), INX is INX1+1.
+find_X([X|Rest], Y, INX):- find_X(Rest, Y, INX).
   
 
 swap(As,I,J,Cs) :-

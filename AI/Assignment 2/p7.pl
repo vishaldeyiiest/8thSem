@@ -11,34 +11,51 @@ bubble(X, [H|T], [X|T1], M):- bubble(H, T, T1, M).
 
 % HEAP SORT- to be done
 
-heap_sort(L, LS):- list_toheap(L, H), heap_tolist(H, LS).
+heap_sort(L, LSr):-
+	buildheap(L, H),
+	write(H),nl,
+	heapsortacc(H, [], LSr).
 
-list_toheap(L, H):- list_heap_acc(L, nil, H).
+buildheap([], nil).
+buildheap([X | Rest], H):-
+	split(Rest, L, R),
+	buildheap(L, LHeap),
+	buildheap(R, RHeap),
+	heapify(heap(LHeap, X, RHeap), H).
 
-list_heap_acc([], H, H).
-list_heap_acc([H|Rest], Heap, HR):- insert_heap(H, Heap, Heap1), list_heap_acc(Rest, Heap1, HR).
+split([], [], []).
+split([X], [X], []). 
+split([X|[Y|Rest]], [X|L], [Y|R]):-
+	split(Rest, L,R).
 
-heap_tolist(nil, []):- !.
-heap_tolist(Heap, [H|Rest]):- remove_heap(H, Heap, Heap1), heap_tolist(Heap1, Rest).
 
-insert_heap(X, nil, heap(nil, X, nil)):- !.
-insert_heap(X, heap(L, T, R), heap(R, T, L1)):- X > T, !, insert_heap(X, L, L1).
-insert_heap(X, heap(L, T, R), heap(R, X, L1)):- insert_heap(T, L, L1).
+heapsortacc(heap(_,nil,_), L, L).
+heapsortacc(heap(LHeap, Val, RHeap), L, LSr):-
+	 heapify(heap(LHeap, nil, RHeap), H),
+	 heapsortacc(H, [Val | L], LSr).
+	 
+	 
+gt(nil,nil):- !, false.
+gt(_, nil):- !.
+gt(X,Y):- X > Y, !;
+		!, false.
 
-remove_heap(T, heap(nil, T, R), R):- !.
-remove_heap(T, heap(L, T, R), NewHeap):- remove_heap_1(V, R, R1),
-  					heapify(heap(R1, V, L), NewHeap).
+% left and right are still max heaps, val is out of order
+heapify(heap(nil, Val, heap(RL, RVal, RR)), heap(nil, RVal, RHeap)):-
+	gt(RVal, Val), !,
+	heapify(heap(RL, Val, RR), RHeap).
 
-remove_heap_1(T, heap(nil, T, R), R):- !.
-remove_heap_1(V, heap(L, T, R), heap(L1, T, L)):- remove_heap_1(V, R, L1).
+heapify(heap(heap(LL, LVal, LR), Val, nil), heap(LHeap, LVal, nil)):-
+	gt(LVal, Val), !,
+	heapify(heap(LL, Val, LR), LHeap).
 
-% heapify(H1, H2) is true if H1 is derived from H2 : heapify
+heapify(heap(heap(LL, LVal,LR), Val, heap(RL, RVal, RR)), heap(LHeap, LVal, heap(RL, RVal, RR))):-
+	gt(LVal, Val),
+	gt(LVal, RVal), !,
+	heapify(heap(LL, Val, LR), LHeap).
+heapify(heap(heap(LL, LVal,LR), Val, heap(RL, RVal, RR)), heap(heap(LL, LVal, LR), RVal, RHeap)):-
+	gt(RVal, Val),
+	gt(RVal, LVal), !,
+	heapify(heap(RL, Val, RR), RHeap).
+heapify(H, H).
 
-heapify(heap(heap(LeftLeft, LeftV, LeftRight), T, heap(RightLeft, RightV, RightRight)),
-     heap(Left, LeftV, heap(RightLeft, RightV, RightRight))):-	RightV > LeftV, T > LeftV, !,
-  								heapify(heap(LeftLeft, T, LeftRight), Left).
-
-heapify(heap(Left, T, heap(RightLeft, RightV, RightRight)), heap(Left, RightV, Right)):- T > RightV, !,
-										  heapify(heap(RightLeft, T, RightRight), Right).
-
-heapify(Heap, Heap).
