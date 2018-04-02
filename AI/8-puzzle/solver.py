@@ -2,7 +2,7 @@ from board import Board
 from search_bfs_dfs_ida import bfs, dfs, ida
 from heuristics import hill_climbing, best_first, Astar
 
-start = Board([[2, 8, 1], [6, 0, 4], [3, 7, 5]])
+start = Board([[8, 1, 2], [0, 3, 4], [5, 7, 6]])
 
 #start = Board([[1, 3, 6], [4, 0, 2], [7, 5, 8]])
 #start.display_board()
@@ -21,7 +21,7 @@ if option == 1:
 	comp, moves = bfs(start, goal)
 	print 'Used Method: Breadth first Search'
 elif option == 2:
-	comp, moves = dfs(start, goal)
+	comp, moves, vis = dfs(start, goal)
 	print 'Used Method: Depth first Search'
 elif option == 3:
 	comp, moves = ida(start, goal)
