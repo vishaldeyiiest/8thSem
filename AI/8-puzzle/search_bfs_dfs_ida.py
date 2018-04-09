@@ -49,6 +49,7 @@ def bfs(start, goal):
 			return comp, None
 
 		current = states.pop(0)
+		#print 'At depth: ', current.depth
 		#current.state.display_board()
 		visited.add(current.state)			
 		comp += 1
@@ -102,7 +103,7 @@ def ida(start, goal, depth_limit = 100):
 	comparisons = 0
 	global_visited = set()
 	for d in range(depth_limit):
-		print 'At depth', d
+		#print 'At depth', d
 		comp, res, visited = dfs(start, goal, d)
 		comparisons += comp
 		if res != None:

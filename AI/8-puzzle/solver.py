@@ -3,7 +3,7 @@ from search_bfs_dfs_ida import bfs, dfs, ida
 from heuristics import hill_climbing, best_first, Astar
 
 start = Board([[8, 1, 2], [0, 3, 4], [5, 7, 6]])
-
+#start = Board([[1, 2, 3], [8, 0, 4], [7, 6, 5]])
 #start = Board([[1, 3, 6], [4, 0, 2], [7, 5, 8]])
 #start.display_board()
 goal = Board([[1, 2, 3], [4, 5, 6], [7, 8, 0]])
