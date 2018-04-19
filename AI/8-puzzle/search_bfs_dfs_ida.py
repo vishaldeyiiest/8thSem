@@ -103,14 +103,15 @@ def ida(start, goal, depth_limit = 100):
 	comparisons = 0
 	global_visited = set()
 	for d in range(depth_limit):
-		#print 'At depth', d
+		print 'At depth', d
 		comp, res, visited = dfs(start, goal, d)
 		comparisons += comp
-		if res != None:
-			if visited - global_visited:
+
+		if visited - global_visited:
 				global_visited = global_visited | visited
-			else:
-				return comparisons, None
+		else:
+			return comparisons, None
+		if res != None:
 			return comparisons, res
 
 	return comparisons, res
